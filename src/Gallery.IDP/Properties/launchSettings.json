@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "https://localhost:5005/",
-      "sslPort": 5005
+      "applicationUrl": "https://localhost:5003/",
+      "sslPort": 5003
     }
   },
   "profiles": {
@@ -15,13 +15,13 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ImageGaleryOAuth2OpenIdConnect.Client": {
+    "Gallery.IDP": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:5005;http://localhost:5004"
+      "applicationUrl": "https://localhost:5003;http://localhost:5002"
     }
   }
 }

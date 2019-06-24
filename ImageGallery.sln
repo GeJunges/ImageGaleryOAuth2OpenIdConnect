@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallery.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallery.Model", "src\ImageGallery.Model\ImageGallery.Model.csproj", "{57F92E50-8EF6-47ED-8A3E-1BC22EF10D76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGallery.Domain", "src\API\ImageGallery.Domain\ImageGallery.Domain.csproj", "{B67920D6-BE22-4079-9653-D6C342F365E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallery.Domain", "src\API\ImageGallery.Domain\ImageGallery.Domain.csproj", "{B67920D6-BE22-4079-9653-D6C342F365E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gallery.IDP", "src\Gallery.IDP\Gallery.IDP.csproj", "{0E613021-4886-4A3F-9531-B0BD0332D7EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{B67920D6-BE22-4079-9653-D6C342F365E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B67920D6-BE22-4079-9653-D6C342F365E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B67920D6-BE22-4079-9653-D6C342F365E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E613021-4886-4A3F-9531-B0BD0332D7EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E613021-4886-4A3F-9531-B0BD0332D7EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E613021-4886-4A3F-9531-B0BD0332D7EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E613021-4886-4A3F-9531-B0BD0332D7EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{0C86543B-02CF-4E03-8CD2-06E3E96F582B} = {96CD4A0E-305E-4305-91AE-2FF8722B41CF}
 		{57F92E50-8EF6-47ED-8A3E-1BC22EF10D76} = {25ADD828-C115-43A0-8735-E3465DB2107D}
 		{B67920D6-BE22-4079-9653-D6C342F365E8} = {96CD4A0E-305E-4305-91AE-2FF8722B41CF}
+		{0E613021-4886-4A3F-9531-B0BD0332D7EC} = {25ADD828-C115-43A0-8735-E3465DB2107D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CB40F05-CC2F-439B-9014-0930E8EC93D1}
