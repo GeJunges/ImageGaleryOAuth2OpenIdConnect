@@ -1,0 +1,26 @@
+.vs/
+.vscode/
+
+# Editor directories and files
+.idea
+*.ntvs*
+*.njsproj
+*.sw?
+
+#project.json files
+project.json.old
+project.lock.json
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*bin/
+*obj/
+*.orig
+
+# local env files
+.env.local
+.env.*.local
+*.env
