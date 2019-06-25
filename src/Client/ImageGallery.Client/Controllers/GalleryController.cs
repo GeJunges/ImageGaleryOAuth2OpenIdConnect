@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -186,7 +187,14 @@ namespace ImageGallery.Client.Controllers
 
         public async Task WriteOutIdentityInformation()
         {
-            var identityToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken); 
+            var identityToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
+
+            Debug.WriteLine($"Identity token: {identityToken}");
+
+            foreach (var claim in User.Claims)
+            {
+                Debug.WriteLine($"Claim Type: {claim.Type} - Claim Value: {claim.Value}");
+            }
         }
 
         public async Task Logout()

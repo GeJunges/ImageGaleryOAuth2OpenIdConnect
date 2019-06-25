@@ -51,7 +51,7 @@ namespace ImageGaleryOAuth2OpenIdConnect.Client
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
                     options.Scope.Add("address");
-                    //options.Scope.Add("roles");
+                    options.Scope.Add("roles");
                     options.SaveTokens = true;
                     options.ClientSecret = "secret";
                     options.GetClaimsFromUserInfoEndpoint = true;
@@ -60,7 +60,7 @@ namespace ImageGaleryOAuth2OpenIdConnect.Client
                     options.ClaimActions.DeleteClaim("idp");
                     //we don't need remove address because by default the authentication middleware doesn't map address
                     //options.ClaimActions.DeleteClaim("address"); 
-                    options.ClaimActions.MapUniqueJsonKey("role", "role");
+                    options.ClaimActions.MapUniqueJsonKey("roles", "roles");
                 })
             ;
         }
