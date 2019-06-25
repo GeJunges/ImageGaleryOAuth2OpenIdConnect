@@ -59,7 +59,13 @@ namespace ImageGallery.API
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            Map();
 
+            app.UseMvc();
+        }
+
+        private static void Map()
+        {
             AutoMapper.Mapper.Initialize(cfg =>
             {
                 // Map from Image (entity) to Image, and back
@@ -81,8 +87,6 @@ namespace ImageGallery.API
             });
 
             AutoMapper.Mapper.AssertConfigurationIsValid();
-
-            app.UseMvc();
         }
     }
 }

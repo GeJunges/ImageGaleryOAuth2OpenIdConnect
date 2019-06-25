@@ -30,11 +30,9 @@ namespace ImageGaleryOAuth2OpenIdConnect.Client
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IImageGalleryHttpClient, ImageGalleryHttpClient>();
+            RegisterOnBuiltInContainer(services);
 
             services.AddAuthentication(options =>
             {
@@ -42,7 +40,8 @@ namespace ImageGaleryOAuth2OpenIdConnect.Client
                 options.DefaultChallengeScheme = "oidc";
             })
                 .AddCookie("Cookies")
-                .AddOpenIdConnect("oidc", options => {
+                .AddOpenIdConnect("oidc", options =>
+                {
                     options.SignInScheme = "Cookies";
                     options.Authority = "https://localhost:5003"; //Identity provider
                     options.ClientId = "imagegalleryclient";
@@ -51,14 +50,25 @@ namespace ImageGaleryOAuth2OpenIdConnect.Client
                     //options.SignedOutCallbackPath = new PathString("");
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
+                    options.Scope.Add("address");
+                    //options.Scope.Add("roles");
                     options.SaveTokens = true;
                     options.ClientSecret = "secret";
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.ClaimActions.Remove("amr");
                     options.ClaimActions.DeleteClaim("sid");
                     options.ClaimActions.DeleteClaim("idp");
+                    //we don't need remove address because by default the authentication middleware doesn't map address
+                    //options.ClaimActions.DeleteClaim("address"); 
+                    options.ClaimActions.MapUniqueJsonKey("role", "role");
                 })
             ;
+        }
+
+        private static void RegisterOnBuiltInContainer(IServiceCollection services)
+        {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IImageGalleryHttpClient, ImageGalleryHttpClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
