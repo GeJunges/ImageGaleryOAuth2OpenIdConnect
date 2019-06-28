@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using ImageGallery.Domain.Repositories;
 using System.IO;
 using ImageGallery.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace ImageGallery.API.Controllers
 {
     [Route("api/images")]
+    [Authorize]
     public class ImagesController : Controller
     {
         private readonly IGalleryRepository _galleryRepository;
@@ -25,8 +28,10 @@ namespace ImageGallery.API.Controllers
         [HttpGet()]
         public IActionResult GetImages()
         {
+            var ownerId = User.Claims.FirstOrDefault(c => c.Type == "sub").Value;
+
             // get from repo
-            var imagesFromRepo = _galleryRepository.GetImages();
+            var imagesFromRepo = _galleryRepository.GetImages(ownerId);
 
             // map to model
             var imagesToReturn = Mapper.Map<IEnumerable<Model.Image>>(imagesFromRepo);
@@ -51,6 +56,7 @@ namespace ImageGallery.API.Controllers
         }
 
         [HttpPost()]
+        [Authorize(Roles = "PayingUser")]
         public IActionResult CreateImage([FromBody] Model.ImageForCreation imageForCreation)
         {
             if (imageForCreation == null)
@@ -72,7 +78,7 @@ namespace ImageGallery.API.Controllers
 
             // get this environment's web root path (the path
             // from which static content, like an image, is served)
-            var webRootPath = _hostingEnvironment.WebRootPath;
+            var webRootPath = _hostingEnvironment.ContentRootPath;
 
             // create the filename
             string fileName = Guid.NewGuid().ToString() + ".jpg";
@@ -89,6 +95,9 @@ namespace ImageGallery.API.Controllers
             // ownerId should be set - can't save image in starter solution, will
             // be fixed during the course
             //imageEntity.OwnerId = ...;
+
+            var ownerId = User.Claims.FirstOrDefault(c => c.Type == "sub").Value;
+            imageEntity.OwnerId = ownerId;
 
             // add and save.  
             _galleryRepository.AddImage(imageEntity);

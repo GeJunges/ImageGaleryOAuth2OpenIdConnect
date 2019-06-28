@@ -1,4 +1,5 @@
-﻿using ImageGallery.Domain.Entities;
+﻿using IdentityServer4.AccessTokenValidation;
+using ImageGallery.Domain.Entities;
 using ImageGallery.Domain.Repositories;
 using ImageGallery.Infrastructure.Configuration;
 using ImageGallery.Infrastructure.Repositories;
@@ -29,6 +30,15 @@ namespace ImageGallery.API
             var connectionString = Configuration.GetConnectionString("ImageGalleryDB");
             services.AddDbContext<GalleryContext>(o => o.UseSqlServer(connectionString));
 
+
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                    .AddIdentityServerAuthentication(options =>
+                    {
+                        options.Authority = "https://localhost:5003/"; //identity server provider
+                        options.ApiName = "imagegalleryapi";
+                    });
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped<IGalleryRepository, GalleryRepository>();
@@ -58,6 +68,7 @@ namespace ImageGallery.API
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseStaticFiles();
             Map();
 
