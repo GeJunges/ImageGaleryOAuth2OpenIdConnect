@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using IdentityModel;
 using ImageGallery.Client.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ImageGaleryOAuth2OpenIdConnect.Client
 {
@@ -39,7 +41,9 @@ namespace ImageGaleryOAuth2OpenIdConnect.Client
                 options.DefaultScheme = "Cookies";
                 options.DefaultChallengeScheme = "oidc";
             })
-                .AddCookie("Cookies")
+                .AddCookie("Cookies", (options) => {
+                    options.AccessDeniedPath = "/Authorization/AccessDenied";
+                })
                 .AddOpenIdConnect("oidc", options =>
                 {
                     options.SignInScheme = "Cookies";
@@ -60,7 +64,13 @@ namespace ImageGaleryOAuth2OpenIdConnect.Client
                     options.ClaimActions.DeleteClaim("idp");
                     //we don't need remove address because by default the authentication middleware doesn't map address
                     //options.ClaimActions.DeleteClaim("address"); 
-                    options.ClaimActions.MapUniqueJsonKey("roles", "roles");
+                    options.ClaimActions.MapUniqueJsonKey("role", "role");
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        NameClaimType = JwtClaimTypes.GivenName,
+                        RoleClaimType = JwtClaimTypes.Role
+                    };
                 })
             ;
         }
