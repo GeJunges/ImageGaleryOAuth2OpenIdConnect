@@ -1,8 +1,10 @@
 ﻿using IdentityServer4.AccessTokenValidation;
+using ImageGallery.API.Authorization;
 using ImageGallery.Domain.Entities;
 using ImageGallery.Domain.Repositories;
 using ImageGallery.Infrastructure.Configuration;
 using ImageGallery.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -38,10 +40,20 @@ namespace ImageGallery.API
                         options.ApiName = "imagegalleryapi";
                     });
 
+            services.AddAuthorization(authorizationOptions =>
+            {
+                authorizationOptions.AddPolicy("MustOwnImage",
+                    policyBuilder =>
+                    {
+                        policyBuilder.RequireAuthenticatedUser();
+                        policyBuilder.AddRequirements(new MustOwnImageRequirement());
+                    });
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped<IGalleryRepository, GalleryRepository>();
+            services.AddScoped<IAuthorizationHandler, MustOwnImageHanddler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

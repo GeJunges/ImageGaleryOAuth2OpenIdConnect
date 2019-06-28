@@ -21,6 +21,8 @@ namespace Gallery.IDP
                         new Claim("family_name", "Underwood"),
                         new Claim("address", "Main Road 1"),
                         new Claim("role", "FreeUser"),
+                        new Claim("country", "nl"),
+                        new Claim("subscriptionlevel", "FreeUser"),
                     }
                 },
                 new TestUser
@@ -33,6 +35,8 @@ namespace Gallery.IDP
                         new Claim("family_name", "Underwood"),
                         new Claim("address", "Big Street 2"),
                         new Claim("role", "PayingUser"),
+                        new Claim("country", "be"),
+                        new Claim("subscriptionlevel", "PayingUser"),
                     }
                 }
             };
@@ -45,6 +49,8 @@ namespace Gallery.IDP
                 new IdentityResources.Profile(),
                 new IdentityResources.Address(),
                 new IdentityResource(name: "roles", displayName: "Your role(s)", claimTypes: new List<string> { "role" } ),
+                new IdentityResource(name: "country", displayName: "The country you're living in", claimTypes: new List<string> { "country" } ),
+                new IdentityResource(name: "subscriptionlevel", displayName: "Your subscription level", claimTypes: new List<string> { "subscriptionlevel" } ),
             };
         }
 
@@ -74,7 +80,9 @@ namespace Gallery.IDP
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Address,
                         "roles",
-                        "imagegalleryapi"
+                        "imagegalleryapi",
+                        "country",
+                        "subscriptionlevel",
                     },
                     ClientSecrets = {
                         new Secret("secret".Sha256())

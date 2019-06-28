@@ -74,4 +74,8 @@
     <ProjectReference Include="..\ImageGallery.Infrastructure\ImageGallery.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Author\" />
+  </ItemGroup>
+
 </Project>

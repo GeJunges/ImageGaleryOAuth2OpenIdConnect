@@ -36,12 +36,24 @@ namespace ImageGaleryOAuth2OpenIdConnect.Client
 
             RegisterOnBuiltInContainer(services);
 
+            services.AddAuthorization(authorizationOptions =>
+            {
+                authorizationOptions.AddPolicy("CanOrderFrame",
+                    policyBuilder =>
+                    {
+                        policyBuilder.RequireAuthenticatedUser();
+                        policyBuilder.RequireClaim("country", "be");
+                        policyBuilder.RequireClaim("subscriptionlevel", "PayingUser");
+                    });
+            });
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = "Cookies";
                 options.DefaultChallengeScheme = "oidc";
             })
-                .AddCookie("Cookies", (options) => {
+                .AddCookie("Cookies", (options) =>
+                {
                     options.AccessDeniedPath = "/Authorization/AccessDenied";
                 })
                 .AddOpenIdConnect("oidc", options =>
@@ -56,6 +68,8 @@ namespace ImageGaleryOAuth2OpenIdConnect.Client
                     options.Scope.Add("profile");
                     options.Scope.Add("address");
                     options.Scope.Add("roles");
+                    options.Scope.Add("country");
+                    options.Scope.Add("subscriptionlevel");
                     options.Scope.Add("imagegalleryapi");
                     options.SaveTokens = true;
                     options.ClientSecret = "secret";
@@ -66,6 +80,8 @@ namespace ImageGaleryOAuth2OpenIdConnect.Client
                     //we don't need remove address because by default the authentication middleware doesn't map address
                     //options.ClaimActions.DeleteClaim("address"); 
                     options.ClaimActions.MapUniqueJsonKey("role", "role");
+                    options.ClaimActions.MapUniqueJsonKey("country", "country");
+                    options.ClaimActions.MapUniqueJsonKey("subscriptionlevel", "subscriptionlevel");
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
