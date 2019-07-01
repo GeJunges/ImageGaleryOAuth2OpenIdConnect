@@ -69,6 +69,13 @@ namespace Gallery.IDP
                     ClientName = "Image Gallery",
                     ClientId = "imagegalleryclient",
                     AllowedGrantTypes = GrantTypes.Hybrid,
+                    //IdentityTokenLifetime = default is 5 min,
+                    //AuthorizationCodeLifetime =  = default is 5 min,
+                    AccessTokenLifetime = 120, //2 min - Default is 1h
+                    AllowOfflineAccess = true,
+                    //AbsoluteRefreshTokenLifetime = default is 30 days
+                    //RefreshTokenExpiration = TokenExpiration.Sliding, //default is Absolute
+                    UpdateAccessTokenClaimsOnRefresh  = true,
                     RedirectUris = new List<string> {
                         "https://localhost:5005/signin-oidc"
                     },
@@ -79,6 +86,7 @@ namespace Gallery.IDP
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Address,
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
                         "roles",
                         "imagegalleryapi",
                         "country",

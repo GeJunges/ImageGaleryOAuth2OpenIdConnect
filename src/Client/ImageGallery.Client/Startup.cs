@@ -71,6 +71,7 @@ namespace ImageGaleryOAuth2OpenIdConnect.Client
                     options.Scope.Add("country");
                     options.Scope.Add("subscriptionlevel");
                     options.Scope.Add("imagegalleryapi");
+                    options.Scope.Add("offline_access");
                     options.SaveTokens = true;
                     options.ClientSecret = "secret";
                     options.GetClaimsFromUserInfoEndpoint = true;
