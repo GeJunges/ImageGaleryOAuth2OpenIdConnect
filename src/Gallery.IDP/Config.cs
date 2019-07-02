@@ -69,6 +69,7 @@ namespace Gallery.IDP
                     ClientName = "Image Gallery",
                     ClientId = "imagegalleryclient",
                     AllowedGrantTypes = GrantTypes.Hybrid,
+                    AccessTokenType = AccessTokenType.Jwt,
                     //IdentityTokenLifetime = default is 5 min,
                     //AuthorizationCodeLifetime =  = default is 5 min,
                     AccessTokenLifetime = 120, //2 min - Default is 1h

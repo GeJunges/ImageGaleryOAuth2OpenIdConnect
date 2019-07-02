@@ -209,8 +209,43 @@ namespace ImageGallery.Client.Controllers
 
         public async Task Logout()
         {
+            var discoveryClient = new DiscoveryClient("https://localhost:5003/");
+            var metaDataResponse = await discoveryClient.GetAsync();
+            var revocationClient = new TokenRevocationClient(metaDataResponse.RevocationEndpoint, "imagegalleryclient", "secret");
+            await RevokeAccessToken(revocationClient);
+            await RevokeRefreshToken(revocationClient);
+
             await HttpContext.SignOutAsync("Cookies");
             await HttpContext.SignOutAsync("oidc");
+        }
+
+        private async Task RevokeRefreshToken(TokenRevocationClient revocationClient)
+        {
+            var refreshToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+            if (!string.IsNullOrWhiteSpace(refreshToken))
+            {
+                var revokeRefreshTokenResponse = await revocationClient.RevokeAccessTokenAsync(refreshToken);
+
+                if (revokeRefreshTokenResponse.IsError)
+                {
+                    throw new Exception("Problem encountered while revoking the refresh token.", revokeRefreshTokenResponse.Exception);
+                }
+            }
+        }
+
+        private async Task RevokeAccessToken(TokenRevocationClient revocationClient)
+        {
+            var accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+
+            if (!string.IsNullOrWhiteSpace(accessToken))
+            {
+                var revokeAccessTokenResponse = await revocationClient.RevokeAccessTokenAsync(accessToken);
+
+                if (revokeAccessTokenResponse.IsError)
+                {
+                    throw new Exception("Problem encountered while revoking the access token.", revokeAccessTokenResponse.Exception);
+                }
+            }
         }
     }
 }
